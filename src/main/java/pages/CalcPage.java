@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 import static org.openqa.selenium.support.PageFactory.initElements;
 
 public class CalcPage {
+
+    @FindBy(css = "div.jlkklc")
+    private WebElement countBar;
 
     @FindBy(css = "span.vUGUtc")
     private WebElement history;
@@ -24,5 +28,9 @@ public class CalcPage {
 
     public String getResults() {
         return results.getText();
+    }
+
+    public void count(String text) {
+        countBar.sendKeys(text, Keys.ENTER);
     }
 }

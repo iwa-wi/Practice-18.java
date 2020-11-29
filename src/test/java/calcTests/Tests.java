@@ -1,11 +1,9 @@
 package calcTests;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -28,39 +26,38 @@ public class Tests {
         driver = new ChromeDriver();
         googleSearch = new googleSearch(driver);
         CalcPage = new CalcPage(driver);
+        driver.get("http://google.com");
+        googleSearch.search("Calculator");
     }
 
     @Test
+    @DisplayName("Операции с целыми числами")
     public void Test1() {
-        driver.get("http://google.com");
-        googleSearch.search("Calculator");
-        driver.findElement(By.cssSelector("div.jlkklc")).sendKeys("(1+2)*3-40/5", Keys.ENTER);
+        CalcPage.count("(1+2)*3-40/5");
         WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
         Assertions.assertAll(
-                () -> assertEquals("(1 + 2) * 3 - 40 ÷ 5 =", CalcPage.getHistory()),
+                () -> assertEquals("(1 + 2) \u00d7 3 - 40 \u00f7 5 =", CalcPage.getHistory()),
                 () -> assertEquals("1", CalcPage.getResults())
         );
     }
 
     @Test
+    @DisplayName("Деление на ноль")
     public void Test2() {
-        driver.get("http://google.com");
-        googleSearch.search("Calculator");
-        driver.findElement(By.cssSelector("div.jlkklc")).sendKeys("6/0", Keys.ENTER);
+        CalcPage.count("6/0");
         WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
         Assertions.assertAll(
-                () -> assertEquals("6 ÷ 0 =", CalcPage.getHistory()),
+                () -> assertEquals("6 \u00f7 0 =", CalcPage.getHistory()),
                 () -> assertEquals("Infinity", CalcPage.getResults())
         );
     }
 
     @Test
+    @DisplayName("Ошибка при пустом значении")
     public void Test3() {
-        driver.get("http://google.com");
-        googleSearch.search("Calculator");
-        driver.findElement(By.cssSelector("div.jlkklc")).sendKeys("sin", Keys.ENTER);
+        CalcPage.count("sin");
         WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
         Assertions.assertAll(
