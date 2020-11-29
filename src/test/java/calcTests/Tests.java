@@ -8,6 +8,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import pages.CalcPage;
 import pages.googleSearch;
 
@@ -33,11 +35,14 @@ public class Tests {
         driver.get("http://google.com");
         googleSearch.search("Calculator");
         driver.findElement(By.cssSelector("div.jlkklc")).sendKeys("(1+2)*3-40/5", Keys.ENTER);
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("span.vUGUtc")));
         Assertions.assertAll(
-                () -> assertEquals("(1+2)*3-40/5", CalcPage.getHistory()),
+                () -> assertEquals("(1 + 2) * 3 - 40 ÷ 5 =", CalcPage.getHistory()),
                 () -> assertEquals("1", CalcPage.getResults())
         );
     }
+
 
 
 }
