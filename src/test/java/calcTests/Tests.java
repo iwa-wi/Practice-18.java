@@ -3,7 +3,6 @@ package calcTests;
 import org.junit.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -22,7 +21,6 @@ public class Tests {
 
     @BeforeClass
     public static void init() {
-        System.setProperty("webdriver.chrome.driver", "C:/webdrivers/chromedriver.exe");
         driver = new ChromeDriver();
         googleSearch = new googleSearch(driver);
         CalcPage = new CalcPage(driver);
@@ -35,7 +33,7 @@ public class Tests {
     public void Test1() {
         CalcPage.count("(1+2)*3-40/5");
         WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
+        wait.until(ExpectedConditions.elementToBeClickable(CalcPage.results));
         Assertions.assertAll(
                 () -> assertEquals("(1 + 2) \u00d7 3 - 40 \u00f7 5 =", CalcPage.getHistory()),
                 () -> assertEquals("1", CalcPage.getResults())
@@ -47,7 +45,7 @@ public class Tests {
     public void Test2() {
         CalcPage.count("6/0");
         WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
+        wait.until(ExpectedConditions.elementToBeClickable(CalcPage.results));
         Assertions.assertAll(
                 () -> assertEquals("6 \u00f7 0 =", CalcPage.getHistory()),
                 () -> assertEquals("Infinity", CalcPage.getResults())
@@ -59,7 +57,7 @@ public class Tests {
     public void Test3() {
         CalcPage.count("sin");
         WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#cwos.qv3Wpe")));
+        wait.until(ExpectedConditions.elementToBeClickable(CalcPage.results));
         Assertions.assertAll(
                 () -> assertEquals("sin() =", CalcPage.getHistory()),
                 () -> assertEquals("Error", CalcPage.getResults())

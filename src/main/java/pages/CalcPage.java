@@ -16,7 +16,7 @@ public class CalcPage {
     private WebElement history;
 
     @FindBy(css = "#cwos.qv3Wpe")
-    private WebElement results;
+    public WebElement results;
 
     public CalcPage(WebDriver driver) {
         initElements(driver, this);
